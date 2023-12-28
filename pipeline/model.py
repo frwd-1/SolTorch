@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 
+# test
 # Example data
 solidity_codes = ["code_with_reentrancy", "safe_code", ...]
 labels = [1, 0, ...]  # 1 for vulnerable, 0 for not vulnerable
