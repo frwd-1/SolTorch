@@ -18,3 +18,14 @@ def detect_reentrancy(file_path):
             potential_vulnerabilities.append((i + 1, line.strip()))
 
     return potential_vulnerabilities
+
+
+# Assuming you have already trained your model 'model' and have a 'vectorizer'
+
+
+def predict_reentrancy(code):
+    features = vectorizer.transform([code])
+    prediction = model.predict(features)
+    return prediction[
+        0
+    ]  # returns 1 for potential vulnerability, 0 for no vulnerability
