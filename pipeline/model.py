@@ -22,6 +22,7 @@ model = MultinomialNB()
 model.fit(X_train, y_train)
 
 # test
+# test
 # Evaluate the model
 predictions = model.predict(X_test)
 print(classification_report(y_test, predictions))
