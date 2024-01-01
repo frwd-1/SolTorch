@@ -1,3 +1,4 @@
+# can happen due to unbounded for loops or external call failure
 def detect_dos_vulnerabilities(code):
     # Split the code into lines
     lines = code.split("\n")
