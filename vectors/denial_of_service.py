@@ -1,4 +1,7 @@
 # can happen due to unbounded for loops or external call failure
+# questions to ask: is the iterable bounded? is the external call guaranteed to succeed?
+# if the call fails, the state changes are reverted, so no vulnerability
+# see DOS https://www.youtube.com/watch?v=pUWmJ86X_do at 5:22:00
 def detect_dos_vulnerabilities(code):
     # Split the code into lines
     lines = code.split("\n")
