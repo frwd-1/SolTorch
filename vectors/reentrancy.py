@@ -1,3 +1,5 @@
+# notes on reentrancy
+
 import re
 
 external_call_pattern = re.compile(r"\.(call|send|transfer)\(")
