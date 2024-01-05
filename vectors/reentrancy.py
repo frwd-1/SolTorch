@@ -21,6 +21,7 @@ def detect_reentrancy(file_path):
 
 
 # Assuming you have already trained your model 'model' and have a 'vectorizer'
+# reentrancy check
 
 
 def predict_reentrancy(code):
