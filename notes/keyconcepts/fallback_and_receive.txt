@@ -7,7 +7,7 @@ fallback methods
         iv. this function is executed on a call to a contract with empty calldata
         v. this is the function that is executed on plain ETH transfers, eg .send() or .transfer()
         vi. if no such function exists, but a payable fallback function exists, the fallback function will be called on a plain ETH transfer
-        vii. if neither receive Ether nor a payable fallback function is present, the contract cannot receive Ether through a transaction that does not represent a pyable function call and it throws an exception
+        vii. if neither receive Ether nor a payable fallback function is present, the contract cannot receive Ether through a transaction that does not represent a payable function call and it throws an exception
 
     2. Fallback function
         i. A contract can have at most one fallback function
@@ -16,6 +16,21 @@ fallback methods
             1) note - in solidity, the calldata keyword is used to specify that a function parameter should be read from the input data of a transaction.
             calldata keyword is primarily used for functions that are called externally, either from other contracts or from outside the Ethereum network. 
         iv. the fallback function is executed on a call to the contract if none of the other functions match the given function signature, or if no data was supplied at all and there is no receive Ether function.
+            1) note - when a call is made to a smart contract with calldata, the EVM first tries to match the calldata to the signature of one of the public functions in the contract.
+            the first four bytes of the calldata represent the function identifier, which is derived from the function's signature
         v. the fallback function always receives data, but in order to also receive Ether it must be market payable
         vi. if the version with parameters is used, input will contain the full data sent to the contract (equal to msg.data) and can return data in output
         the returned data will not be ABI-encoded. Instead it will be returned without modifications (not even padding)
+
+    3. Gas Implications for both Receive and Fallback
+        i. In the worst case, the receive and payable fallback functions can only rely on 2300 gas being available (for example when send or transfer is used), leaving little room to perform other operations except basic logging. The following operations will consume more gas than the 2300 gas stipend:
+            1) Writing to storage
+            2) Creating a contract
+            3) Calling an external function which consumes a large amount of gas
+            4) Sending Ether
+
+    4. Additional Notes and Warnings
+        i. A contract without a receive Ether function can receive Ether as a recipient of a coinbase transaction (aka miner block reward) or as a destination of a selfdestruct.
+            1) A contract cannot react to such Ether transfers and thus also cannot reject them. This is a design choice of the EVM and Solidity cannot work around it.
+            2) It also means that address(this).balance can be higher than the sum of some manual accounting implemented in a contract (i.e. having a counter updated in the receive Ether function).
+        ii. A payable fallback function is also executed for plain Ether transfers, if no receive Ether function is present. It is recommended to always define a receive Ether function as well, if you define a payable fallback function to distinguish Ether transfers from interface confusions.

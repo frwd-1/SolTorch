@@ -1,0 +1,13 @@
+In Solidity, the visibility of functions is an important concept, and it primarily defines how and from where these functions can be accessed. The difference between external and public visibility is particularly significant:
+
+External Functions:
+
+Access: External functions can only be called from outside the contract, meaning they can't be called from other functions within the same contract. They are part of the contract's interface, which is visible to other contracts and external calls.
+Optimization: When a function is declared as external, its parameters are stored in calldata, which is a special read-only area that contains the function arguments. calldata is cheaper in terms of gas than memory, making external functions more gas-efficient when they are called with large amounts of data.
+Use Case: Typically used for functions that need to be accessible to other contracts or external entities. It's common to see external visibility used in interfaces and for functions that are meant to be part of the contract's API.
+Public Functions:
+
+Access: Public functions can be called both from within the contract and from external calls. This makes them more flexible than external functions, as they can be part of the contract's internal logic and its external interface.
+Storage of Arguments: When public functions are called internally, their parameters are stored in memory, which is a read-write area and is more expensive in terms of gas compared to calldata.
+Use Case: Public functions are ideal when you need a function that should be part of the contract's API but also needs to be called internally by other functions of the same contract.
+In summary, the choice between external and public visibility for functions in Solidity contracts depends on how you intend to use these functions. If a function is to be called exclusively from outside the contract, external is more gas-efficient, especially for functions taking large or complex arguments. If you need the flexibility of calling a function both from within and outside the contract, public is the appropriate choice.

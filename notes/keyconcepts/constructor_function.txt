@@ -1,0 +1,4 @@
+
+The specific naming of the constructor using the constructor keyword was introduced in Solidity version 0.4.22. 
+Prior to this version, the constructor was defined as a function with the same name as the contract. 
+The introduction of the constructor keyword was a significant improvement in clarity and reduced the likelihood of errors.
