@@ -1,0 +1,2 @@
+Key Concepts
+Tx.origin is not always the same as msg.sender. opens up the possibility of phishing attacks
