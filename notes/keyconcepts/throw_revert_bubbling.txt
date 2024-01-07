@@ -1,0 +1,42 @@
+"Throw/revert bubbling" in Solidity refers to the behavior of error handling and propagation through a sequence of function calls. When a function call results in a `throw`, `revert`, or `require` failure in Solidity, the error not only causes the immediate function to fail but also "bubbles up" through the call stack, causing each of the calling functions in the chain to fail as well.
+
+Here's a breakdown of how this works:
+
+1. **Throw/Revert/Require**: These are Solidity's mechanisms for handling errors.
+   - `throw` was used in earlier versions of Solidity and has been deprecated in favor of `revert` and `require`.
+   - `revert` and `require` are used to check conditions and trigger an exception if the condition is not met. `revert` allows for custom error messages, while `require` is typically used to validate inputs and conditions.
+
+2. **Error Propagation (Bubbling)**: When an error occurs (i.e., when `revert` or `require` is triggered), the following happens:
+   - The current function execution stops immediately.
+   - All state changes made by the function are reverted (i.e., the blockchain state is rolled back to its state before the function was called).
+   - The error "bubbles up" to the caller of the function. If that caller is another function, the same process happens again, cascading all the way up the call chain.
+   - Ether sent with the transaction is returned to the sender.
+   - An error message (if provided) is passed back to the original caller.
+
+3. **Handling Errors in Contract Interactions**: When a contract calls a function of another contract, and that function fails, the failure will bubble up to the calling contract. If the calling contract does not handle this failure, it will also fail.
+
+4. **Example**:
+   ```solidity
+   contract A {
+       function doSomething() public {
+           require(false, "Error in Contract A");
+       }
+   }
+
+   contract B {
+       A a = new A();
+
+       function tryToDoSomething() public {
+           a.doSomething(); // This call will fail and "revert" will bubble up to here.
+           // Any code hereafter in this function will not execute.
+       }
+   }
+   ```
+
+5. **Implications for Developers**: Understanding throw/revert bubbling is crucial for Solidity developers because:
+   - It helps in writing more robust smart contracts that can appropriately handle failures in internal or external function calls.
+   - It aids in the effective use of gas, as failed transactions consume all provided gas.
+
+6. **Handling Errors Gracefully**: To handle errors without causing the entire transaction to fail, developers can use `try/catch` (introduced in Solidity 0.6.0) to catch errors from external contract calls.
+
+In summary, throw/revert bubbling in Solidity ensures that errors in a contract function call are not silently ignored but are instead propagated up the call stack, allowing for a transparent and fail-safe execution of smart contracts.

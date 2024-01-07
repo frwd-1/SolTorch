@@ -1,6 +1,6 @@
 	II) Checks-Effects-Interactions
 		a. In your code, first check the relevant state variable,
-		b. Second piece of code is to implement the effects on the state variable
+		b. Second piece of code needs to be implementation of the effects on the state variable
 		c. Final line of code is to make the external call
 			i. Make sure you update any state variable before you make external function calls
 	III) Mutex Pattern

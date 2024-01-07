@@ -1,0 +1,2 @@
+we cannot assume that an external contract will always be able to handle receiving funds. 
+for example, if it does not have receive / fallback functions, it cannot receive funds
