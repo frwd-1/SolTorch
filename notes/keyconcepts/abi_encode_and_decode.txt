@@ -1,0 +1,27 @@
+https://docs.soliditylang.org/en/latest/contracts.html
+
+If you want to decode the input data, you can check the first four bytes for the function selector and then you can use abi.decode together with the array slice syntax to decode ABI-encoded data: (c, d) = abi.decode(input[4:], (uint256, uint256)); Note that this should only be used as a last resort and proper functions should be used instead.
+
+In Solidity, `abi.encode` and `abi.encodeWithSignature` are both used to ABI encode data, but they serve slightly different purposes and are used in different contexts.
+
+**`abi.encode`:**
+- `abi.encode` takes a comma-separated list of arguments and encodes them according to the ABI specification. This is typically used when you want to encode a set of parameters to pass as data within transactions or calls.
+- It does not include any function selector. It's purely encoding the arguments you provide.
+- The result is a bytes array of the encoded arguments.
+
+For example:
+```solidity
+bytes memory encodedParams = abi.encode(param1, param2);
+```
+
+**`abi.encodeWithSignature`:**
+- `abi.encodeWithSignature` is used when you need to encode a function call, including the function signature and the parameters. It takes a function signature as a string for the first argument, followed by the function's parameters.
+- This function will hash the signature to get the function selector and then encode the provided parameters just like `abi.encode`.
+- The result is a bytes array that includes the function selector followed by the ABI-encoded parameters. This can be used to make a low-level `call` or `delegatecall` to another contract, telling it which function to invoke and with what arguments.
+
+For example:
+```solidity
+bytes memory encodedCall = abi.encodeWithSignature("functionName(uint256,address)", param1, param2);
+```
+
+To summarize, `abi.encode` is generally used for encoding parameters alone, while `abi.encodeWithSignature` is used to encode a function call that includes both the function selector and the parameters. The latter is particularly useful when you want to invoke a function dynamically, and the function signature is not known at compile time or when using low-level calls like `call` or `delegatecall`.

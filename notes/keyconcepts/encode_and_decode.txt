@@ -1,3 +1,0 @@
-https://docs.soliditylang.org/en/latest/contracts.html
-
-If you want to decode the input data, you can check the first four bytes for the function selector and then you can use abi.decode together with the array slice syntax to decode ABI-encoded data: (c, d) = abi.decode(input[4:], (uint256, uint256)); Note that this should only be used as a last resort and proper functions should be used instead.

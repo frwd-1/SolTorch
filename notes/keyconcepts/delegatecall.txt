@@ -2,4 +2,5 @@ delegatecall is a low level function similar to call.
 
 When contract A executes delegatecall to contract B, B's code is executed
 
-with contract A's storage, msg.sender and msg.value.
+with contract A's storage (ie, it's executed in the context of contract A - so if theres an owner variable in B and A, A's owner variable will  be updated),
+    msg.sender and msg.value.
