@@ -1,0 +1,27 @@
+The exercise with the `Elevator` contract is primarily highlighting a smart contract vulnerability known as "Unpredictable State Change." This type of vulnerability arises when a contract's behavior is influenced by external calls that can change state in an unpredictable manner. In this specific case, the vulnerability is exploited through the re-entrancy-like behavior of the `Elevator` contract. Let's break down the key aspects of this vulnerability:
+
+### 1. Unpredictable State Change
+
+- The `Elevator` contract expects the `Building` contract (represented by `msg.sender`) to implement the `isLastFloor` function consistently.
+- However, an attacker can create a malicious implementation of the `Building` interface where the `isLastFloor` function's behavior is inconsistent or changes state between calls.
+- In this case, the state change is "unpredictable" from the `Elevator` contract’s perspective because it cannot foresee how the `Building` contract will implement `isLastFloor`.
+
+### 2. Re-entrancy-Like Behavior
+
+- While this is not a typical re-entrancy attack (which usually involves recursive calls to drain funds), it follows a similar principle where the control flow is unexpectedly altered.
+- The `Elevator` contract does not anticipate that the result of `isLastFloor` could change between the two calls within the same transaction.
+- This allows the attacker to manipulate the outcome of the `goTo` function, tricking the `Elevator` into reaching the top floor.
+
+### 3. Trusting External Calls
+
+- The vulnerability also highlights the risks of trusting external contracts. In this case, the `Elevator` contract trusts that the `Building` contract (the caller) will behave in a certain way, without enforcing strict behavior or validation.
+- This is a common issue in smart contracts where assumptions are made about external contract behaviors without proper safeguards.
+
+### Key Takeaways for Smart Contract Development
+
+- **Avoid State Changes after External Calls**: Always be cautious of state changes after external calls. If the state must change, ensure it happens before making external calls.
+- **Validate External Contract Behavior**: If your contract's logic depends on external contract behavior, it’s crucial to validate or restrict what those external contracts can do.
+- **Consider Worst-case Scenarios**: Always consider how external actors might interact with your contract in ways you didn't intend. Design your contract to handle these edge cases safely.
+- **Immutable Logic**: Ensure that critical logic in your contract cannot be unexpectedly altered by external influences.
+
+In summary, this exercise serves as an important lesson in smart contract security, demonstrating how assumptions about external contract behavior can lead to vulnerabilities and emphasizing the need for careful contract design and thorough testing.
