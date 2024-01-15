@@ -1,0 +1,15 @@
+Contract ABI Specification
+Basic Design
+The Contract Application Binary Interface (ABI) is the standard way to interact with contracts in the Ethereum ecosystem, both from outside the blockchain and for contract-to-contract interaction. Data is encoded according to its type, as described in this specification. The encoding is not self describing and thus requires a schema in order to decode.
+
+We assume that the interface functions of a contract are strongly typed, known at compilation time and static. We assume that all contracts will have the interface definitions of any contracts they call available at compile-time.
+
+This specification does not address contracts whose interface is dynamic or otherwise known only at run-time.
+
+Function Selector
+The first four bytes of the call data for a function call specifies the function to be called. It is the first (left, high-order in big-endian) four bytes of the Keccak-256 hash of the signature of the function. The signature is defined as the canonical expression of the basic prototype without data location specifier, i.e. the function name with the parenthesised list of parameter types. Parameter types are split by a single comma — no spaces are used.
+
+Note
+
+The return type of a function is not part of this signature. In Solidity’s function overloading return types are not considered. The reason is to keep function call resolution context-independent. The JSON description of the ABI however contains both inputs and outputs.
+
