@@ -1,1 +1,3 @@
-AMM Formula
+AMM Constant product Formula
+X * Y = K
+k must be maintained constant
