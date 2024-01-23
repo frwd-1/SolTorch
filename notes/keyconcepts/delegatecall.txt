@@ -4,3 +4,17 @@ When contract A executes delegatecall to contract B, B's code is executed
 
 with contract A's storage (ie, it's executed in the context of contract A - so if theres an owner variable in B and A, A's owner variable will  be updated),
     msg.sender and msg.value.
+
+There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context (i.e. at the address) of the calling contract and msg.sender and msg.value do not change their values.
+
+This means that a contract can dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract, only the code is taken from the called address.
+
+This makes it possible to implement the “library” feature in Solidity: Reusable library code that can be applied to a contract’s storage, e.g. in order to implement a complex data structure.
+
+Use in Delegating to On-Chain Libraries
+delegatecall can be used to delegate operations to on-chain libraries. This is often seen in two scenarios:
+
+Upgradable Contracts: By separating logic (in a library or another contract) from data (in the main contract), delegatecall allows for contract logic upgrades without changing the contract address or its stored data.
+Library Functions: Similar to statically linked libraries in other programming languages, delegatecall allows a contract to use library functions as if they are part of the contract itself.
+
+Context Preservation: delegatecall preserves the context of the calling contract (msg.sender and msg.value). This is different from a regular call, where msg.sender in the called contract would be the address of the calling contract.
