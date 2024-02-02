@@ -1,0 +1,1 @@
+in Ethereum, the address of a contract is deterministically computed. It is derived from the address of its creator (in this case, the Recovery contract) and the number of transactions sent by that creator (nonce).
