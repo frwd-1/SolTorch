@@ -1,0 +1,15 @@
+The Ethernaut's "Denial" challenge teaches several important lessons about smart contract security, particularly in the context of Ethereum and Solidity development. These lessons include:
+
+1. **Be Wary of Untrusted External Calls**: The `withdraw()` function in the challenge makes an external call to an address that is not trusted (the `partner`), which can be set by anyone. External calls can lead to unexpected behavior, especially if the target is a contract with arbitrary code. It's essential to be cautious with external calls and consider the potential risks, as they can be used to execute malicious code.
+
+2. **Gas Limit Considerations**: The challenge demonstrates how functions that rely on external calls can fail if those calls consume too much gas. In Ethereum, transactions have a gas limit to prevent infinite loops and to limit resource usage. If an external call consumes all available gas, subsequent operations in the function will fail. It's crucial to account for gas usage and ensure that essential operations are not disrupted by external calls consuming all the gas.
+
+3. **Reentrancy and State Changes**: While this challenge focuses on gas and call behavior, it also touches on concepts related to reentrancy attacks. A key best practice in smart contract development is to make all state changes before calling external contracts. Although the `Denial` contract does not have a reentrancy vulnerability per se, similar principles apply: be cautious about the order of operations when external calls are involved.
+
+4. **Testing Against Edge Cases**: This challenge underscores the importance of thorough testing, including testing how contracts behave under edge cases or malicious inputs. Contracts should be tested against a variety of scenarios, including those where external contracts behave unexpectedly.
+
+5. **Consider Using `.send()` or `.transfer()` with Care**: The challenge uses `.call()` for sending Ether, which is more flexible but less safe compared to `.send()` and `.transfer()`. The latter two methods are limited to 2300 gas, preventing called contracts from performing complex operations (including reentrancy). However, even these methods need careful consideration, as demonstrated by the EIP-1884 changes which made certain operations more expensive in terms of gas, leading to potential failures even with `.send()` and `.transfer()`.
+
+6. **Smart Contract Auditing**: It emphasizes the need for comprehensive auditing by knowledgeable individuals or teams. Auditors can help identify vulnerabilities, including those that may not be immediately obvious, such as the potential for external calls to disrupt contract logic.
+
+In summary, the "Denial" challenge is a lesson in the potential risks associated with external calls in smart contracts, the importance of considering gas limits, the need for careful state management, and the overall necessity for thorough testing and auditing of smart contract code.
