@@ -1,3 +1,5 @@
 Yul and Opcodes
 
 How the EVM processes state transitions
+
+Yul (previously also called JULIA or IULIA) is an intermediate language that can be compiled to bytecode for different backends.
