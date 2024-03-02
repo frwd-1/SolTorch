@@ -1,0 +1,1 @@
+we can't assume an untrusted external contract will implement our interface correctly
