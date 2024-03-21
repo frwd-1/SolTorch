@@ -1,2 +1,3 @@
 principles of Huff programming
 stack | storage | memory
+process flow
